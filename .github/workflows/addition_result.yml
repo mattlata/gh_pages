@@ -17,5 +17,5 @@ jobs:
         run: echo "n2=2" >> "$GITHUB_OUTPUT"
       - name: Calculate the sum of n1 and n2
         run: |
-          sum=$((${{ steps.s1.outputs.n1 }}+${{ steps.s1.outputs.n2 }})) \
+          sum=$((${{ steps.s1.outputs.n1 }}+${{ steps.s2.outputs.n2 }})) \
           echo sum
