@@ -1,0 +1,17 @@
+name: Subtraction result
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  sub_1:
+    name: Subtract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Subtract
+        shell: bash
+        env:
+          n1: ${{ secrets.N1 }} 
+          n2: ${{ secrets.N2 }}
+        run: echo $((n1+n2))

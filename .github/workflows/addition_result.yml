@@ -22,7 +22,6 @@ jobs:
         run: |
           result=$((${{ steps.s1.outputs.n1 }}+${{ steps.s2.outputs.n2 }}))
           echo "result=$result" >> "$GITHUB_OUTPUT"
-          cat "$GITHUB_OUTPUT"
   sum_2:
     name: The sum of the previous job result and 7
     runs-on: ubuntu-latest
