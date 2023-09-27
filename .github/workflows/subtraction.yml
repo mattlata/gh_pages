@@ -14,4 +14,4 @@ jobs:
         env:
           n1: ${{ secrets.N1 }} 
           n2: ${{ secrets.N2 }}
-        run: echo $((n1+n2))
+        run: echo $((n1-n2))

@@ -1,0 +1,61 @@
+name: Combinations
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  job1:
+    name: Registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create registry
+        shell: bash
+        run: echo "Who eats what?" > registry.txt
+      - name: Upload registry
+        uses: actions/upload-artifact@v3
+        with:
+          name: registry
+          path: registry.txt
+
+  job2:
+    needs: job1
+    name: Who eats what?
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        animal: ['cat', 'dog', 'rabbit']
+        food: ['meat', 'carrot', 'cheese']
+        exclude:
+          - animal: 'cat'
+            food: 'carrot'
+          - animal: 'rabbit'
+            food: 'meat'
+          - animal: 'rabbit'
+            food: 'cheese'
+    steps:
+      - name: Download registry
+        uses: actions/download-artifact@v3
+        with:
+          name: registry
+      - name: Get Result
+        shell: bash
+        run: echo "${{ matrix.animal }} easts ${{ matrix.food }}" >> registry.txt
+      - name: Upload registry
+        uses: actions/upload-artifact@v3
+        with:
+          name: registry
+          path: registry.txt
+
+  job3:
+    needs: job2
+    name: Display
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download registry
+        uses: actions/download-artifact@v3
+        with:
+          name: registry
+      - name: Display
+        run: cat registry.txt
