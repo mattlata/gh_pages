@@ -8,6 +8,8 @@ jobs:
   sum_1:
     name: The sum of 2 numbers
     runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.s3.outputs.result }}
     steps:
       - name: Set n1
         id: s1
@@ -15,7 +17,17 @@ jobs:
       - name: Set n2
         id: s2
         run: echo "n2=2" >> "$GITHUB_OUTPUT"
-      - name: Calculate the sum of n1 and n2
+      - name: Calculation
+        id: s3
         run: |
-          sum=$((${{ steps.s1.outputs.n1 }}+${{ steps.s2.outputs.n2 }})) \
-          echo sum
+          result=$((${{ steps.s1.outputs.n1 }}+${{ steps.s2.outputs.n2 }}))
+          echo "result=$result" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+  sum_2:
+    name: The sum of the previous job result and 7
+    runs-on: ubuntu-latest
+    needs: sum_1
+    steps:
+      - name: Calculation
+        run: echo $((${{needs.sum_1.outputs.result}} + 7))
+
