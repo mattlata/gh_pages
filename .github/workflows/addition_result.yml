@@ -1,0 +1,21 @@
+name: Addition result
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  sum_1:
+    name: The sum of 2 numbers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set n1
+        id: s1
+        run: echo "n1=1" >> "$GITHUB_OUTPUT"
+      - name: Set n2
+        id: s2
+        run: echo "n2=2" >> "$GITHUB_OUTPUT"
+      - name: Calculate the sum of n1 and n2
+        run: |
+          sum=$((${{ steps.s1.outputs.n1 }}+${{ steps.s1.outputs.n2 }})) \
+          echo sum
